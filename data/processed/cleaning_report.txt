@@ -1,0 +1,25 @@
+TENNIS DATA CLEANING REPORT
+============================================================
+
+Generated: 2025-11-17 17:56:26
+
+Final dataset statistics:
+  Total matches: 22,287
+  Date range: 2021-01-04 00:00:00 to 2024-12-18 00:00:00
+  Unique players: 1,353
+  Unique tournaments: 650
+
+Matches by tour:
+  ATP: 11,655
+  WTA: 10,632
+
+Matches by surface:
+  Hard: 13,260
+  Clay: 6,497
+  Grass: 2,530
+
+Matches by year:
+  2021: 5,329
+  2022: 5,510
+  2023: 5,743
+  2024: 5,705
