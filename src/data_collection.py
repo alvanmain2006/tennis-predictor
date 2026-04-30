@@ -10,10 +10,9 @@ import urllib.request
 ssl._create_default_https_context = ssl._create_unverified_context
 
 class TennisDataCollector:
-    """Collect tennis match data from various sources"""
     
     def __init__(self, output_dir='data/raw'):
-        self.output_dir = output_dir
+        self.output_dir = output_dir #self is like this
         self.create_directories()
         
     def create_directories(self):
@@ -38,9 +37,7 @@ class TennisDataCollector:
             'wta': 'https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master/'
         }
         
-        all_matches = []
-        
-        print("\n=== Downloading Tennis Match Data ===\n")
+        all_matches = [] #list of multiple datasets
         
         for tour in tours:
             print(f"Downloading {tour.upper()} data...")
@@ -62,7 +59,7 @@ class TennisDataCollector:
                     print(f"✗ Failed: {e}")
         
         if not all_matches:
-            print("⚠ No data downloaded!")
+            print("No data downloaded!")
             return None
         
         # Combine all data
@@ -70,10 +67,10 @@ class TennisDataCollector:
         
         # Save to file
         output_file = f"{self.output_dir}/all_matches_raw.csv"
-        combined_df.to_csv(output_file, index=False)
+        combined_df.to_csv(output_file, index=False) #to csv takes in path of the file, no index
         
-        print(f"\n✓ Total matches collected: {len(combined_df):,}")
-        print(f"✓ Saved to: {output_file}")
+        print(f"\n Total matches collected: {len(combined_df):,}")
+        print(f" Saved to: {output_file}")
         
         return combined_df
     
@@ -86,8 +83,6 @@ class TennisDataCollector:
             'atp': 'https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_rankings_current.csv',
             'wta': 'https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master/wta_rankings_current.csv'
         }
-        
-        print("\n=== Downloading Player Rankings ===\n")
         
         all_rankings = []
         
@@ -102,7 +97,7 @@ class TennisDataCollector:
                 print(f"✓ {len(df):,} ranking records")
                 
             except Exception as e:
-                print(f"✗ Failed: {e}")
+                print(f" Failed: {e}")
         
         if not all_rankings:
             return None
@@ -118,7 +113,7 @@ class TennisDataCollector:
     
     def get_data_summary(self, df):
         """
-        Print summary statistics of collected data
+        Print summary statistics about the collected data
         """
         if df is None or df.empty:
             print("No data to summarize")
@@ -230,11 +225,7 @@ class TennisDataCollector:
 
 def main():
     """Main execution function"""
-    
-    print("╔════════════════════════════════════════╗")
-    print("║  TENNIS MATCH DATA COLLECTOR          ║")
-    print("╚════════════════════════════════════════╝")
-    
+
     # Initialize collector
     collector = TennisDataCollector()
     
@@ -255,11 +246,10 @@ def main():
         collector.show_sample_data(matches_df)
         collector.export_data_info(matches_df)
     
-    print("\n" + "="*50)
+    
     print("✓ DATA COLLECTION COMPLETE!")
-    print("="*50)
     print("\nNext steps:")
-    print("1. Check data/raw/ folder for your files")
+    print("1. Check data/raw/ folder for the downloaded CSV files")
     print("2. Run data_exploration.py to explore the data")
     print("3. Continue to data cleaning and processing")
     print("\n")

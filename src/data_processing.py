@@ -22,25 +22,21 @@ class TennisDataProcessor:
     
     def load_data(self):
         """Load raw data"""
-        print("="*60)
-        print("LOADING DATA")
-        print("="*60)
+
         
         try:
             self.df = pd.read_csv(self.input_file)
-            print(f"✓ Loaded {len(self.df):,} matches")
+            print(f" Loaded {len(self.df):,} matches")
             print(f"  Columns: {len(self.df.columns)}")
             return True
         except FileNotFoundError:
-            print(f"✗ File not found: {self.input_file}")
+            print(f" File not found: {self.input_file}")
             print("  Run the data collector first!")
             return False
     
     def show_initial_stats(self):
         """Show statistics before cleaning"""
-        print("\n" + "="*60)
-        print("INITIAL DATA STATISTICS")
-        print("="*60)
+        
         
         print(f"\nTotal matches: {len(self.df):,}")
         print(f"\nDate range:")
@@ -63,9 +59,6 @@ class TennisDataProcessor:
     
     def clean_dates(self):
         """Clean and convert date columns"""
-        print("\n" + "="*60)
-        print("CLEANING DATES")
-        print("="*60)
         
         if 'tourney_date' not in self.df.columns:
             print("✗ No tourney_date column found")
@@ -95,9 +88,7 @@ class TennisDataProcessor:
     
     def clean_player_names(self):
         """Clean and standardize player names"""
-        print("\n" + "="*60)
-        print("CLEANING PLAYER NAMES")
-        print("="*60)
+        
         
         # Remove matches with missing player names
         before = len(self.df)
@@ -116,9 +107,7 @@ class TennisDataProcessor:
     
     def clean_rankings(self):
         """Clean ranking data"""
-        print("\n" + "="*60)
-        print("CLEANING RANKINGS")
-        print("="*60)
+        
         
         # Fill missing rankings with a high number (1000 = unranked)
         for col in ['winner_rank', 'loser_rank']:
@@ -140,9 +129,7 @@ class TennisDataProcessor:
     
     def clean_surface(self):
         """Clean and standardize surface names"""
-        print("\n" + "="*60)
-        print("CLEANING SURFACE DATA")
-        print("="*60)
+        
         
         if 'surface' not in self.df.columns:
             print("✗ No surface column found")
@@ -178,9 +165,7 @@ class TennisDataProcessor:
     
     def clean_match_stats(self):
         """Clean match statistics (aces, double faults, etc.)"""
-        print("\n" + "="*60)
-        print("CLEANING MATCH STATISTICS")
-        print("="*60)
+        
         
         # List of statistical columns
         stat_cols = []
@@ -209,9 +194,7 @@ class TennisDataProcessor:
     
     def add_match_outcome_indicator(self):
         """Add a simple outcome column (always 1 for winner perspective)"""
-        print("\n" + "="*60)
-        print("ADDING OUTCOME INDICATORS")
-        print("="*60)
+        
         
         # This will be useful later when we create player-perspective records
         self.df['winner_outcome'] = 1
@@ -221,9 +204,7 @@ class TennisDataProcessor:
     
     def remove_duplicates(self):
         """Remove duplicate matches"""
-        print("\n" + "="*60)
-        print("REMOVING DUPLICATES")
-        print("="*60)
+       
         
         before = len(self.df)
         
@@ -242,9 +223,7 @@ class TennisDataProcessor:
     
     def sort_by_date(self):
         """Sort matches chronologically"""
-        print("\n" + "="*60)
-        print("SORTING DATA")
-        print("="*60)
+        
         
         self.df = self.df.sort_values('tourney_date').reset_index(drop=True)
         print("✓ Sorted matches chronologically")
@@ -254,10 +233,7 @@ class TennisDataProcessor:
         Create records from both winner and loser perspective
         This is crucial for machine learning - each player needs a record
         """
-        print("\n" + "="*60)
-        print("CREATING PLAYER-PERSPECTIVE RECORDS")
-        print("="*60)
-        
+
         print("  Creating winner records...", end=' ')
         
         # Winner records (outcome = 1)
@@ -321,9 +297,7 @@ class TennisDataProcessor:
     
     def save_cleaned_data(self, df, filename='matches_cleaned.csv'):
         """Save cleaned data"""
-        print("\n" + "="*60)
-        print("SAVING CLEANED DATA")
-        print("="*60)
+        
         
         output_path = f"{self.output_dir}/{filename}"
         df.to_csv(output_path, index=False)
@@ -336,9 +310,7 @@ class TennisDataProcessor:
     
     def generate_cleaning_report(self):
         """Generate a report of the cleaning process"""
-        print("\n" + "="*60)
-        print("CLEANING REPORT SUMMARY")
-        print("="*60)
+        
         
         report = []
         report.append("TENNIS DATA CLEANING REPORT")
@@ -373,11 +345,6 @@ class TennisDataProcessor:
     
     def process_all(self):
         """Run the complete cleaning pipeline"""
-        print("\n")
-        print("╔════════════════════════════════════════════════════════╗")
-        print("║  TENNIS DATA CLEANING & PROCESSING PIPELINE           ║")
-        print("╚════════════════════════════════════════════════════════╝")
-        print()
         
         # Load data
         if not self.load_data():
@@ -409,7 +376,7 @@ class TennisDataProcessor:
         self.generate_cleaning_report()
         
         print("\n" + "="*60)
-        print("✓ DATA CLEANING COMPLETE!")
+        print(" DATA CLEANING COMPLETE!")
         print("="*60)
         print("\nGenerated files:")
         print(f"  1. {self.output_dir}/matches_cleaned.csv")

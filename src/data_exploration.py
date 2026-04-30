@@ -19,9 +19,6 @@ def load_data(filepath='data/raw/all_matches_raw.csv'):
 
 def basic_exploration(df):
     """Basic data exploration"""
-    print("\n" + "="*60)
-    print("BASIC DATA EXPLORATION")
-    print("="*60)
     
     print(f"\nDataset Shape: {df.shape[0]:,} rows × {df.shape[1]} columns")
     
@@ -39,9 +36,7 @@ def basic_exploration(df):
 
 def analyze_matches_by_surface(df):
     """Analyze match distribution by surface"""
-    print("\n" + "="*60)
-    print("MATCHES BY SURFACE")
-    print("="*60)
+    
     
     if 'surface' not in df.columns:
         print("No surface data available")
@@ -68,9 +63,6 @@ def analyze_matches_by_surface(df):
 
 def analyze_top_players(df, n=20):
     """Find top players by match count"""
-    print("\n" + "="*60)
-    print(f"TOP {n} PLAYERS (BY MATCHES PLAYED)")
-    print("="*60)
     
     # Count matches for each player (as winner or loser)
     winners = df['winner_name'].value_counts()
@@ -89,10 +81,6 @@ def analyze_top_players(df, n=20):
 
 def analyze_ranking_distribution(df):
     """Analyze player ranking distribution"""
-    print("\n" + "="*60)
-    print("RANKING ANALYSIS")
-    print("="*60)
-    
     # Combine winner and loser rankings
     all_ranks = pd.concat([df['winner_rank'], df['loser_rank']]).dropna()
     
@@ -115,9 +103,7 @@ def analyze_ranking_distribution(df):
 
 def analyze_upsets(df, rank_diff_threshold=50):
     """Analyze upset matches (lower-ranked player beats higher-ranked)"""
-    print("\n" + "="*60)
-    print("UPSET ANALYSIS")
-    print("="*60)
+    
     
     # Calculate ranking difference
     df_analysis = df.dropna(subset=['winner_rank', 'loser_rank']).copy()
@@ -139,9 +125,7 @@ def analyze_upsets(df, rank_diff_threshold=50):
 
 def analyze_by_tournament_level(df):
     """Analyze matches by tournament level"""
-    print("\n" + "="*60)
-    print("MATCHES BY TOURNAMENT LEVEL")
-    print("="*60)
+   
     
     if 'tourney_level' not in df.columns:
         print("No tournament level data available")
@@ -166,9 +150,6 @@ def analyze_by_tournament_level(df):
 
 def check_data_quality(df):
     """Check data quality and missing values"""
-    print("\n" + "="*60)
-    print("DATA QUALITY CHECK")
-    print("="*60)
     
     print("\nMissing values:")
     missing = df.isnull().sum()
@@ -193,38 +174,29 @@ def check_data_quality(df):
 
 def create_quick_summary(df):
     """Create a quick summary report"""
-    print("\n" + "="*60)
-    print("QUICK SUMMARY REPORT")
-    print("="*60)
     
     # Convert date
     df_temp = df.copy()
     df_temp['tourney_date'] = pd.to_datetime(df_temp['tourney_date'].astype(str), format='%Y%m%d', errors='coerce')
     
-    print(f"\n📊 Total Matches: {len(df):,}")
-    print(f"📅 Date Range: {df_temp['tourney_date'].min().strftime('%Y-%m-%d')} to {df_temp['tourney_date'].max().strftime('%Y-%m-%d')}")
+    print(f"\n Total Matches: {len(df):,}")
+    print(f" Date Range: {df_temp['tourney_date'].min().strftime('%Y-%m-%d')} to {df_temp['tourney_date'].max().strftime('%Y-%m-%d')}")
     
     if 'tour' in df.columns:
-        print(f"🎾 Tours: {', '.join(df['tour'].unique())}")
+        print(f" Tours: {', '.join(df['tour'].unique())}")
     
     if 'surface' in df.columns:
-        print(f"🏟️  Surfaces: {', '.join(df['surface'].dropna().unique())}")
+        print(f"  Surfaces: {', '.join(df['surface'].dropna().unique())}")
     
     unique_players = pd.concat([df['winner_name'], df['loser_name']]).nunique()
-    print(f"👥 Unique Players: {unique_players:,}")
+    print(f" Unique Players: {unique_players:,}")
     
     if 'tourney_name' in df.columns:
         unique_tournaments = df['tourney_name'].nunique()
-        print(f"🏆 Unique Tournaments: {unique_tournaments}")
+        print(f" Unique Tournaments: {unique_tournaments}")
 
 
 def main():
-    """Main exploration function"""
-    
-    print("╔════════════════════════════════════════╗")
-    print("║  TENNIS DATA EXPLORER                 ║")
-    print("╚════════════════════════════════════════╝")
-    
     # Load data
     df = load_data()
     
@@ -240,10 +212,7 @@ def main():
     analyze_ranking_distribution(df)
     top_players = analyze_top_players(df, n=20)
     analyze_upsets(df, rank_diff_threshold=50)
-    
-    print("\n" + "="*60)
-    print("✓ EXPLORATION COMPLETE!")
-    print("="*60)
+
     print("\nGenerated files:")
     print("  - data/raw/matches_by_surface.png")
     print("  - data/raw/ranking_distribution.png")

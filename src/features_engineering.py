@@ -40,9 +40,7 @@ class TennisFeatureEngineer:
         Calculate recent form (win rate over last N matches)
         This is a rolling calculation that only uses past data
         """
-        print("\n" + "="*60)
-        print(f"CALCULATING RECENT FORM (Last {lookback_matches} matches)")
-        print("="*60)
+        
         
         self.df = self.df.sort_values(['player_name', 'tourney_date']).reset_index(drop=True)
         
@@ -76,9 +74,7 @@ class TennisFeatureEngineer:
         """
         Calculate form on specific surface
         """
-        print("\n" + "="*60)
-        print(f"CALCULATING SURFACE-SPECIFIC FORM (Last {lookback_matches} matches)")
-        print("="*60)
+    
         
         surface_form_values = []
         
@@ -100,11 +96,11 @@ class TennisFeatureEngineer:
                 
                 surface_form_values.extend(player_surface['surface_form'].values)
             
-            print(f"✓")
+            
         
         self.df['player_surface_form'] = surface_form_values
         
-        print(f"✓ Surface form calculated")
+        print(f" Surface form calculated")
         print(f"  Average: {self.df['player_surface_form'].mean():.3f}")
     
     def calculate_head_to_head(self):
@@ -153,7 +149,6 @@ class TennisFeatureEngineer:
         self.df['h2h_total'] = h2h_total
         self.df['h2h_win_rate'] = h2h_win_rate
         
-        print(f" ✓ Done")
         print(f"  Matches with H2H history: {(self.df['h2h_total'] > 0).sum():,}")
         print(f"  Average H2H matches: {self.df['h2h_total'].mean():.2f}")
     
@@ -161,9 +156,7 @@ class TennisFeatureEngineer:
         """
         Calculate how rankings are changing (momentum)
         """
-        print("\n" + "="*60)
-        print(f"CALCULATING RANKING MOMENTUM ({window_days} days)")
-        print("="*60)
+        
         
         ranking_change = []
         
@@ -195,16 +188,13 @@ class TennisFeatureEngineer:
         
         self.df['ranking_momentum'] = ranking_change
         
-        print(f"✓ Done")
         print(f"  Average momentum: {self.df['ranking_momentum'].mean():.1f}")
     
     def calculate_rest_days(self):
         """
         Calculate days since last match (fatigue indicator)
         """
-        print("\n" + "="*60)
-        print("CALCULATING REST DAYS")
-        print("="*60)
+        
         
         rest_days = []
         
@@ -240,9 +230,7 @@ class TennisFeatureEngineer:
         """
         Count matches in last 30 days (activity level)
         """
-        print("\n" + "="*60)
-        print("CALCULATING RECENT MATCH COUNT")
-        print("="*60)
+        
         
         recent_matches = []
         
@@ -270,9 +258,7 @@ class TennisFeatureEngineer:
         """
         Calculate performance at specific tournament
         """
-        print("\n" + "="*60)
-        print("CALCULATING TOURNAMENT-SPECIFIC HISTORY")
-        print("="*60)
+        
         
         tournament_win_rate = []
         tournament_matches = []
@@ -308,16 +294,14 @@ class TennisFeatureEngineer:
         self.df['tournament_matches'] = tournament_matches
         self.df['tournament_win_rate'] = tournament_win_rate
         
-        print(f" ✓ Done")
+        
         print(f"  Players with tournament history: {(self.df['tournament_matches'] > 0).sum():,}")
     
     def add_basic_derived_features(self):
         """
         Add simple calculated features
         """
-        print("\n" + "="*60)
-        print("ADDING DERIVED FEATURES")
-        print("="*60)
+       
         
         # Ranking features
         self.df['rank_diff'] = self.df['player_rank'] - self.df['opponent_rank']
@@ -330,7 +314,7 @@ class TennisFeatureEngineer:
         # Rank ratio
         self.df['rank_ratio'] = self.df['player_rank'] / (self.df['opponent_rank'] + 1)
         
-        print("✓ Added ranking-based features")
+        print(" Added ranking-based features")
         
         # Time features
         if 'month' in self.df.columns:
@@ -351,9 +335,7 @@ class TennisFeatureEngineer:
         """
         One-hot encode categorical variables
         """
-        print("\n" + "="*60)
-        print("ENCODING CATEGORICAL FEATURES")
-        print("="*60)
+        
         
         # Encode surface
         if 'surface' in self.df.columns:
@@ -371,9 +353,7 @@ class TennisFeatureEngineer:
         """
         Show summary of all created features
         """
-        print("\n" + "="*60)
-        print("FEATURE SUMMARY")
-        print("="*60)
+        
         
         feature_categories = {
             'Ranking Features': [
@@ -413,9 +393,7 @@ class TennisFeatureEngineer:
         """
         Save data with features
         """
-        print("\n" + "="*60)
-        print("SAVING FEATURED DATA")
-        print("="*60)
+        
         
         output_path = f"{self.output_dir}/match_features.csv"
         self.df.to_csv(output_path, index=False)
@@ -439,9 +417,7 @@ class TennisFeatureEngineer:
         """
         Display sample records with features
         """
-        print("\n" + "="*60)
-        print("SAMPLE FEATURED RECORDS")
-        print("="*60)
+        
         
         important_cols = [
             'player_name', 'opponent_name', 'surface', 
@@ -459,11 +435,7 @@ class TennisFeatureEngineer:
         """
         Run complete feature engineering pipeline
         """
-        print("\n")
-        print("╔════════════════════════════════════════════════════════╗")
-        print("║  TENNIS FEATURE ENGINEERING PIPELINE                  ║")
-        print("╚════════════════════════════════════════════════════════╝")
-        print()
+        
         
         # Load data
         if not self.load_data():

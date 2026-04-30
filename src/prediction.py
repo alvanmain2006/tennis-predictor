@@ -11,7 +11,7 @@ import os
 class TennisPredictor:
     """Make tennis match predictions"""
     
-    def __init__(self, model_path='models/xgboost_model.pkl',
+    def __init__(self, model_path='models/logistic_model.pkl',
                  features_path='models/feature_columns.pkl'):
         self.model_path = model_path
         self.features_path = features_path
