@@ -1,10 +1,8 @@
 import pandas as pd
-import requests
 import time
 from datetime import datetime
 import os
 import ssl
-import urllib.request
 
 # Fix for SSL certificate issues on Mac
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -40,14 +38,14 @@ class TennisDataCollector:
         all_matches = [] #list of multiple datasets
         
         for tour in tours:
-            print(f"Downloading {tour.upper()} data...")
+            # print(f"Downloading {tour} data...")
             base_url = base_urls[tour]
             
             for year in years:
                 url = f"{base_url}{tour}_matches_{year}.csv"
                 
                 try:
-                    print(f"  Fetching {year}...", end=' ')
+                    # print(f"  Fetching {year}...", end=' ')
                     df = pd.read_csv(url)
                     df['tour'] = tour.upper()
                     df['year'] = year
@@ -63,11 +61,11 @@ class TennisDataCollector:
             return None
         
         # Combine all data
-        combined_df = pd.concat(all_matches, ignore_index=True)
+        combined_df = pd.concat(all_matches, ignore_index=False)
         
         # Save to file
         output_file = f"{self.output_dir}/all_matches_raw.csv"
-        combined_df.to_csv(output_file, index=False) #to csv takes in path of the file, no index
+        combined_df.to_csv(output_file, index=True) #to csv takes in path of the file, no index
         
         print(f"\n Total matches collected: {len(combined_df):,}")
         print(f" Saved to: {output_file}")
@@ -121,7 +119,6 @@ class TennisDataCollector:
         
         print("\n" + "="*50)
         print("DATA COLLECTION SUMMARY")
-        print("="*50)
         
         print(f"\nTotal Matches: {len(df):,}")
         
@@ -153,7 +150,7 @@ class TennisDataCollector:
         for col in important_cols:
             if col in df.columns:
                 missing_pct = (df[col].isna().sum() / len(df)) * 100
-                print(f"  {col}: {missing_pct:.1f}% missing")
+                print(f"{col}: {missing_pct:.1f}% missing")
         
         print("\n" + "="*50)
     
@@ -230,7 +227,7 @@ def main():
     collector = TennisDataCollector()
     
     # Download match data for last 4 years
-    print("\nStep 1: Downloading match data...")
+    # print("\nStep 1: Downloading match data...")
     matches_df = collector.download_sackmann_data(
         years=[2021, 2022, 2023, 2024],
         tours=['atp', 'wta']
