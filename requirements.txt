@@ -51,7 +51,7 @@ lxml==6.0.2
 MarkupSafe==3.0.3
 matplotlib==3.10.7
 matplotlib-inline==0.2.1
-mediapipe==0.10.14
+mediapipe==0.10.35
 ml_dtypes==0.5.4
 narwhals==2.20.0
 nest-asyncio==1.6.0
