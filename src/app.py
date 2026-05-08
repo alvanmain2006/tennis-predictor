@@ -1,7 +1,7 @@
 import streamlit as st
 import pickle
 
-with open("logistic_model.pkl", "rb") as f:
+with open("models/logistic_model.pkl", "rb") as f:
     model = pickle.load(f)
 
 st.title("My ML Prediction App")
