@@ -154,14 +154,14 @@ class TennisDataCollector:
         
         print("\n" + "="*50)
     
-    def show_sample_data(self, df, n=5):
+    def show_sample_data(self, df):
         """Show sample matches"""
         if df is None or df.empty:
             return
         
         print("\n=== SAMPLE MATCHES ===\n")
         
-        sample = df.head(n)
+        sample = df.head()
         
         for idx, row in sample.iterrows():
             winner = row.get('winner_name', 'Unknown')

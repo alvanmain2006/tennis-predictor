@@ -88,3 +88,4 @@ if st.button("Predict winner"):
 
         winner = player1_name if prediction == 1 else player2_name
         st.success(f"Predicted winner: {winner}")
+        st.caption("This prediction is based on ranking, surface, and default estimates for form and match history.")
